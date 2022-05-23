@@ -19,9 +19,9 @@ Training the DDPG agent:
 ``` python
 from guaranteed_control.ddpg.ddpg import DDPG, train, play
 from guaranteed_control.intervals.interval import Interval
-import gym
+from guaranteed_control.problems.mountain_car import MountainCar
 
-env = gym.make("MountainCarContinuous-v0")
+env = MountainCar()
 input_interval = Interval(interval=[[-0.6, -0.4], [-0.07, 0.07]])
 agent = DDPG(env.observation_space.shape[0], env.action_space.shape[0], upper_bounds=env.action_space.high, n_layer1=16, n_layer2=16, batch_size=16, noise_std=0.4, epsilon_s=0.05, lambda_smooth=0.2, D_s=10)
 agent.start_training(env, agent, input_interval=input_interval, n_episodes=200)
@@ -31,7 +31,7 @@ Running the closed loop reachability analysis on 50 iterations
 
 ```python
 from guaranteed_control.closed_loop.reachability_closed_loop import interval_approximation, interval_approximation_naive
-from guaranteed_control.problems import F_car
+from guaranteed_control.problems.dynamics import F_car
 
 epsilon = 0.1
 specification_interval = None
