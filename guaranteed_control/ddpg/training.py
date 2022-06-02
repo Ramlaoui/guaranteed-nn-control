@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import tqdm
 import gym
+import time
 
 
 def train(env, agent, input_interval=None, n_episodes=200, plot=True, plot_every=100, verbose=1):
@@ -23,7 +24,7 @@ def train(env, agent, input_interval=None, n_episodes=200, plot=True, plot_every
             
             if plot and i%plot_every==0:
                 env.render()
-            action = agent([observation]) 
+            action = agent(tf.convert_to_tensor(np.array([observation])))
             action = action
             observation_, reward, done = tf.numpy_function(env_step, [action], [tf.float32, tf.float32, tf.int8])
             
@@ -60,7 +61,7 @@ def play(env, agent, n_games=10, input_interval=None, watch=False, plot=True):
     actions = []
     
     for i in range(n_games):
-
+        
         observation = env.reset(input_interval=input_interval)
         done = False
         episode_reward = 0
@@ -70,11 +71,10 @@ def play(env, agent, n_games=10, input_interval=None, watch=False, plot=True):
         action_array = []
 
         while not done:
-
             if watch:
                 env.render()
 
-            action = agent([observation]) 
+            action = agent(np.array([observation]))
             action = action
             observation_, reward, done = tf.numpy_function(env_step, [action], [tf.float32, tf.float32, tf.int8])
   
