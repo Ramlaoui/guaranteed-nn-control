@@ -12,6 +12,6 @@ Since the methods used are all based on interval over-approximations, we provide
 # NN Reachability
 This is where the neural network output over-approximation is computed. We also provide functions to plot the inputs and outputs of the NN reachability functions. Different display modes are provided in order to understand what the functions are doing to the intervals.
 
-# Closed Loop
+# Reachability
 The main reachability functions are implemented here. The goal is to provide the controller as a neural network, and the dynamical system as a function of intervals that outputs a new state interval and to see what the reachability states are.
 

@@ -8,7 +8,7 @@ This is how to use the naive reachability analysis algorithm that progressively 
 
 ```python
 from guaranteed_control.intervals.interval import Interval
-from guaranteed_control.sys_reachability.reach import interval_approximation
+from guaranteed_control.reachability.reach import interval_approximation
 from guaranteed_control.nn_reachability.nn_reachability_tf import reachMLP
 import tensorflow as tf
 
@@ -26,7 +26,7 @@ When we need the state intervals to contract for stability reachability analysis
 
 ```python
 from guaranteed_control.intervals.interval import Interval
-from guaranteed_control.sys_reachability.reach import interval_approximation
+from guaranteed_control.reachability.reach import interval_approximation
 from guaranteed_control.nn_reachability.nn_reachability_tf import reachMLP_pendulum
 import tensorflow as tf
 import numpy as np
