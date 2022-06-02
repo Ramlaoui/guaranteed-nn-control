@@ -30,18 +30,9 @@ The Double Integrator is a simple linear system that is presented in the project
 We also provide visualizations for the Dubins car problem.
 
 ```python
-from guaranteed_control.problems.dubins import Dubin
+from guaranteed_control.problems.dubins import Dubin, cost1
 
-
-chosen_params = {
-    'learning_rate_actor': 1e-4, 
-    'learning_rate_critic': 2e-4,
-    'tau': 0.001,
-    'noise_std':[0.02, 0.01]
-}
 a,b = 0.01, 0.06
 env = Dubin(cost = lambda x : cost1(*x, a, b))
 state = env.reset()
-done = False
-agent = DDPG(env.observation_space.intervals.shape[0], 2, upper_bounds=env.action_space.high_low()[1], n_layer1=64, n_layer2=64, batch_size=16, **chosen_params)
 ```

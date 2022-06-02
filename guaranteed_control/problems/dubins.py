@@ -6,6 +6,17 @@ from guaranteed_control.ddpg.ddpg import train, DDPG, play
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
+def cost1(self, state_, action, a, b):
+
+        vector_to_obj = self.obj - state_[:2]
+
+        theta_to_obj = angle_normalize(np.pi + np.arctan2(vector_to_obj[1], vector_to_obj[0]))
+
+        if self.iteration == self.max_iter:
+            print(theta_to_obj - state_[2])
+            
+        return np.square(np.linalg.norm(state_[:2])) + a*np.sum(np.linalg.norm(action)) + b*np.square(np.linalg.norm(theta_to_obj-state_[2]))
+    
 
 def angle_normalize(x):
     return ((x + np.pi) % (2 * np.pi)) - np.pi

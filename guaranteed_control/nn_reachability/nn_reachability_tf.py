@@ -168,7 +168,7 @@ def nn_interval(mod, eta):
 
 #idea: stop cutting when we have a precision of delta
 
-def reachMLP_py_(H, epsilon, N, epsilon_stop, input_x=0, input_y=1, output_x=0, output_y=1, over_appr=True):
+def reachMLP_epsilon(model, H, epsilon, N, epsilon_stop=10, input_x=0, input_y=1, output_x=0, output_y=1, over_appr=True):
     plot=False
     usim_set = generate_nn_outputs(model, H, N)
     usim = create_interval(usim_set)
@@ -296,7 +296,7 @@ def reachMLP_py(H, epsilon, N, epsilon_stop, input_x=0, input_y=1, output_x=0, o
 
 
 
-def reachMLP(mod, H, epsilon, N, epsilon_stop, over_appr=True, input_x=0, input_y=1, output_x=0, output_y=1, plot=0, verbose=1):
+def reachMLP(mod, H, epsilon, N, epsilon_stop=10, over_appr=True, input_x=0, input_y=1, output_x=0, output_y=1, plot=0, verbose=1):
     global model
     model = mod
     ue, usim, usim_set = tf.numpy_function(reachMLP_py, [H, epsilon, N, epsilon_stop], [
