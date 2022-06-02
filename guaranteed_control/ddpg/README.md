@@ -3,7 +3,7 @@
 
 The DDPG agent is based on DeepMind's paper. It consists in two actor networks and two critic networks used to output actions through one actor network, while the critics give a value that is related to how good the actions are to increase the rewards on the long term. We also add smooth regularization conditions for the actions of the actors in order to make the different states of the system be more continuous as described in the project's report.
 
-# Creating a DDPG Agent
+## Creating a DDPG Agent
 
 ```python
 from guaranteed_control.ddpg.ddpg import DDPG
@@ -23,7 +23,7 @@ tf.keras.models.save_model(agent.actor, filepath="./models/pendulum_actor.tf", s
 
 This code allows to create a simple DDPG agent and to train it on the Pendulum environment of Gym, while specifying the interval we want to train it on. 
 
-# Adding smooth Regularization to the DDPG agent
+## Adding smooth Regularization to the DDPG agent
 
 ```python
 env = pendulum()
@@ -37,7 +37,7 @@ tf.keras.models.save_model(agent.actor, filepath="./models/pendulum_actor.tf", s
 
 In order to add the smooth regularization to the agent, we need to specify the parameters $\epsilon_s, \lambda_s$ and $D_s$ to the DDPG class.
 
-# Loading a trained DDPG controller and play in the corresponding environment
+## Loading a trained DDPG controller and play in the corresponding environment
 
 ```python
 from guaranteed_control.ddpg.ddpg import DDPG

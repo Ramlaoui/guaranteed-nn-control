@@ -2,7 +2,7 @@
 
 In this module, we implement many functions that allow to do reachability analysis of intervals using neural networks. All the functions are implemented assuming that the neural networks are feed-forward NNs and that the activation functions are monotonous (ReLU, tanh, sigmoids...) and that they are implemented on TensorFlow.
 
-# Arithmetic of intervals of a neural network
+## Arithmetic of intervals of a neural network
 
 We provide a function that directly takes a neural network, and an interval and outputs the output interval over-approximation provided by as proven in the references of this project.
 
@@ -16,7 +16,7 @@ model = tf.models.load_model(filepath="./models/pendulum_actor.tf")
 u = nn_interval(model, x)
 ```
 
-# Compute reachability set of a neural network with minimum division of input interval
+## Compute reachability set of a neural network with minimum division of input interval
 
 The idea here is, given a $\epsilon$ value that is the maximum size we allow the input interval to be divided in, to compute the output reachability interval of a neural network, by minimizing the over-approximation error, using a simulated interval for control of that error metric.
 
@@ -36,7 +36,7 @@ actions_interval = reachMLP_epsilon(H, epsilon, N)
 
 Here the variable H is a set of points extracted from the state_interval that allows to compute the control simulated interval (Note that we could have implemented the computation of H inside the function reachMLP without having to provide it, by using the state interval directly).
 
-# Compute reachability set of a neural network by specifying a maximum error $\delta$
+## Compute reachability set of a neural network by specifying a maximum error
 
 Given a specified value $\delta$, the goal is for the estimated interval to not have a length that is higher than $\delta$ than the control interval. Note that this algorithm might not converge for very low values of $\delta$, so we just added a timeout condition that will just output the maximal precision it got during that runtime.
 
@@ -55,7 +55,7 @@ delta = 0.2
 actions_interval = reachMLP(model, H, epsilon, N)
 ```
 
-# Other functions
+## Other functions
 
 We also provided tools to plot multiple intervals inside this module.
 
