@@ -1,3 +1,4 @@
 notebooks/*.ipynb linguist-vendored
 mpc/*.ipynb linguist-vendored
 lyapunov/*.ipynb linguist-vendored
+models/** linguist-vendored
