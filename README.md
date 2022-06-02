@@ -2,7 +2,23 @@
 
 This library implements different methods to prove specification of controllers of dynamical systems based on Neural Networks. We provide a DDPG implementation using TensorFlow that allows to train some agents on problem environments that should have a similar structure to OpenAI's Gym env structure. Feed-forward neural networks that model the controller and are implemented on TensorFlow with only monotonous activation functions can also be used to study the reachability set of the dynamical system. We provide example of both applications on concrete problems.
 
-![proof_nn_048-04795-001-00101](https://user-images.githubusercontent.com/23098906/169909287-104d6a8f-4e3a-40d9-9c1f-e803846fb33c.png)
+<!-- Mountain Car Reachability Proof | Pendulum Stability Proof -->
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/23098906/169909287-104d6a8f-4e3a-40d9-9c1f-e803846fb33c.png" />
+</p>
+
+## Examples
+### Pendulum
+<p align="center">
+<img width="300" height="300" src="./plots/pendulum.gif">
+<img src="./plots/pendulum_stability.gif">
+</p>
+
+### Double integrator
+<p align="center">
+<img width="300" height="300" src="./plots/double_integrator.gif">
+<img src="./plots/double_stability.gif">
+</p>
 
 ## Context
 
@@ -17,7 +33,8 @@ Here is a quick example of how to train a DDPG and analyze the reachability sets
 Training the DDPG agent:
 
 ``` python
-from guaranteed_control.ddpg.ddpg import DDPG, train, play
+from guaranteed_control.ddpg.ddpg import DDPG
+from guaranteed_control.ddpg.training import train, play
 from guaranteed_control.intervals.interval import Interval
 from guaranteed_control.problems.mountain_car import MountainCar
 
@@ -49,5 +66,7 @@ The difficulty comes from the fact that $\epsilon$ and $\epsilon_actions$ are in
 
 A good practice calibration would be to start with a small $\epsilon$ and make the value $\epsilon_{actions}$ bigger but small enough to not apply big steps on the interval to avoid propagating different scenarios of the state interval in every component of it (ie. creating as many scenarios as necessary inside every iteration).
 
-## Examples
+For more documentation on these parameters and how to use the corresponding function, go the module "sys_reachability" inside the guaranteed_control folder, or check the projects report pdf. 
+
+
 
