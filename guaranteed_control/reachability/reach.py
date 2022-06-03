@@ -152,7 +152,7 @@ def interval_approximation(T, model, F, state_interval, specification_interval, 
     
     if plot:
         try:
-            os.mkdir(f"./plots/plot_interval_approx/{title}_{epsilon}_{epsilon_actions}/")
+            os.mkdir(f"./plots/plot_interval_approx/{title}_{epsilon_nn}_{epsilon_actions}/")
         except:
             print("folder already exists")
         ax_state = plot_interval(state_interval, 0, 1, "r")
@@ -200,7 +200,7 @@ def interval_approximation(T, model, F, state_interval, specification_interval, 
 
         if plot:
             ax_state = add_to_plot(ax_state, over_appr_union(state_intervals), 0, 1)
-            plt.savefig(f"./plots/plot_interval_approx/{title}_{epsilon}_{epsilon_actions}/{title}_{epsilon}_{epsilon_actions}_{t}.png")
+            plt.savefig(f"./plots/plot_interval_approx/{title}_{epsilon_nn}_{epsilon_actions}/{title}_{epsilon_nn}_{epsilon_actions}_{t}.png")
 
         # if t!=T:
             # state_intervals_temp = [over_appr_union(state_intervals)]
@@ -217,7 +217,7 @@ def interval_approximation(T, model, F, state_interval, specification_interval, 
                 ax_out = plot_interval(over_appr_union(interv), 0, 1)
             else:
                 ax_out = add_to_plot(ax_out, over_appr_union(interv), 0, 1)
-        plt.savefig(f'./plots/plot_interval_approx/{title}_{epsilon}_{epsilon_actions}/final_{title}_{epsilon}_{epsilon_actions}.jpg')
+        plt.savefig(f'./plots/plot_interval_approx/{title}_{epsilon_nn}_{epsilon_actions}/final_{title}_{epsilon_nn}_{epsilon_actions}.jpg')
     plt.show()
 
     if verbose == 2:
