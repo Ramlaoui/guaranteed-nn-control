@@ -157,18 +157,17 @@ def nn_interval(mod, eta):
 
 # To do: add verbose and more or less display options
 
-# We start by an input set, and we want to know what the ouput set from the NN is
-# We approximate that input set by an interval, and get an overapproximation of the output of NN using the interval approximation
-# The goal is then to find a finer approximation of the output set: Use N simulations and approximate the output with an interval
-# Cut the first input interval as many times as needed for it's output to be inside the simulated interval
-# This will lead to a set smaller than the first interval, but we are still sure that it will be reached too!
-
-# To do: add verbose and more or less display options
-
 
 #idea: stop cutting when we have a precision of delta
 
+
+# This function is the first version of the reachMLP algorithm proposed
 def reachMLP_epsilon(model, H, epsilon, N, epsilon_stop=10, input_x=0, input_y=1, output_x=0, output_y=1, over_appr=True):
+
+    """
+    Using epsilon, we stop dividing if we have a good approximation (inside simulated interval), or if the state interval we arrived at is smaller than epsilon
+    """
+
     plot=False
     usim_set = generate_nn_outputs(model, H, N)
     usim = create_interval(usim_set)
@@ -225,6 +224,12 @@ def reachMLP_epsilon(model, H, epsilon, N, epsilon_stop=10, input_x=0, input_y=1
     return ue, usim.intervals, usim_set
 
 def reachMLP_py(H, epsilon, N, epsilon_stop, input_x=0, input_y=1, output_x=0, output_y=1, over_appr=True, time_timeout=0.2):
+
+    """
+    Different version of the above function. This one uses a precision delta (input: epsilon), that will be used to control the mistake made on the approximation. 
+    epsilon_stop is a condition that makes the algorithm return the worst approximation it has rapidly if the size of the control (simulated) interval is too big.
+    Time-out occurs in this function (Algo stops trying to improve precision after 2 seconds)
+    """
 
     start_time = time.time()
     plot=False
@@ -317,6 +322,8 @@ def reachMLP(mod, H, epsilon, N, epsilon_stop=10, over_appr=True, input_x=0, inp
 
     return ue
 
+
+# Same functions but for the pendulum (because the observation variables are not the same as the state variables, although they are almost equivalent)
 
 def reachMLP_pendulum_py_(H, epsilon, N, epsilon_stop, input_x=0, input_y=1, output_x=0, output_y=1):
 

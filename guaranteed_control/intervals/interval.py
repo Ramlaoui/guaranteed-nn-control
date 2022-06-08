@@ -210,14 +210,19 @@ class Interval():
         return Interval(interval = intervals)
 
     def cos(self, axis = 0):
-          
+
         a, b = self.intervals[axis]
         intervals = np.zeros((1, 2))
         a_bis, b_bis = np.floor_divide((a - np.pi), 2*np.pi), np.floor_divide((b - np.pi), 2*np.pi)
         intervals[0] = [min(np.cos(a), np.cos(b)), max(np.cos(a), np.cos(b))]
+
+        # This condition checks whether there is pi (mod 2pi) inside the interval
         if b_bis-a_bis >= 1:
             intervals[0][0] = -1
+
         a_bis, b_bis = np.floor_divide((a), 2*np.pi), np.floor_divide((b), 2*np.pi)
+
+        # This condition checks whether there is 0 (mod 2pi) inside the interval
         if b_bis-a_bis >= 1:
             intervals[0][1] = 1
         return Interval(interval = intervals)
@@ -229,9 +234,12 @@ class Interval():
         a, b = self.intervals[axis]
         a_bis, b_bis = np.floor_divide((a - np.pi/2), 2*np.pi), np.floor_divide((b - np.pi/2), 2*np.pi)
         intervals[0] = [min(np.sin(a), np.sin(b)), max(np.sin(a), np.sin(b))]
+
         if b_bis-a_bis >= 1:
             intervals[0][1] = 1
+
         a_bis, b_bis = np.floor_divide((a + np.pi/2), 2*np.pi), np.floor_divide((b + np.pi/2), 2*np.pi)
+        
         if b_bis-a_bis >= 1:
             intervals[0][0] = -1
         return Interval(interval = intervals)

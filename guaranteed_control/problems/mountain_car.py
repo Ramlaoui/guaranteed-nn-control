@@ -16,10 +16,12 @@ def reset(self, input_interval=None):
             print("Bad shape for input interval, need one dimensional interval object")
     return np.array(self.state, dtype=np.float32)
 
-
+# Returning the Mountain car environment, after changing the reset function
 def mountain_car():
 
     car = gym.make("MountainCarContinuous-v0")
+    # Unwrapped is used because the reset function is implemented inside a gym.Env object, but gym.make returns a wrapper for time management and more functionalities.
+    #types.MethodType is used to change an already existing method
     car.unwrapped.reset = types.MethodType(reset, car.unwrapped)
     
 

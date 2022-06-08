@@ -6,6 +6,11 @@ from guaranteed_control.ddpg.training import train, play
 
 class Actor(keras.Model):
 
+    """
+    Actor class, two hidden layers with relu activations
+    Output layer has a tanh layer
+    """
+        
     def __init__(self, n_states, n_actions, upper_bounds, n_layer1 = 512, n_layer2=512):
         super().__init__()
         self.n_states= n_states
@@ -56,6 +61,10 @@ class Critic(keras.Model):
 
 class MemoryBuffer():
 
+    """
+    The memory buffers can remember "size" game observations (state, reached_state, reward), and generates batches depending on the batch size specified, randomly
+    """
+
     def __init__(self, n_states, n_actions, size=100000, batch_size=32):
         
         self.size = size
@@ -91,6 +100,11 @@ class MemoryBuffer():
     
 
 class OUActionNoise:
+
+    """
+    This code implements the Ornstein-Uhlenbeck noise, which always tends to drift towards the mean
+    """
+
     def __init__(self, mean, std_deviation, theta=0.15, dt=1e-2, x_initial=None):
         self.theta = theta
         self.mean = mean
@@ -120,6 +134,10 @@ class OUActionNoise:
 
 
 class DDPG(keras.Model):
+
+    """
+    Regrouping all the above classes and implementing the training step according to DeepMind's paper on DDPG
+    """
 
     def __init__(self, n_states, n_actions, upper_bounds, noise_std=0.2, learning_rate_critic = 0.002, learning_rate_actor= 0.001, gamma=0.99, tau = 0.005, n_layer1=32, n_layer2=32, batch_size=64, lambda_smooth=None, epsilon_s=0.2, D_s=10):
         super().__init__()
@@ -183,7 +201,8 @@ class DDPG(keras.Model):
 
     @tf.function
     def learn(self, states, actions, rewards, states_):  
-
+        
+        #Gradient descent on the Critic network first
         with tf.GradientTape() as tape:
             target_actions = self.target_actor(states_)
             target_critics = self.target_critic(states_, target_actions)
@@ -196,12 +215,16 @@ class DDPG(keras.Model):
         critic_gradients_wrt_weights = tape.gradient(loss_critic, self.critic.trainable_variables)
         self.critic.optimizer.apply_gradients(zip(critic_gradients_wrt_weights, self.critic.trainable_variables))
 
+        #Outer Gradient Tape for the actor network
         with tf.GradientTape() as tape:
             actor_actions = self.actor(states)
             critic_value = self.critic(states, actor_actions)
 
+            # The critic value is the loss of the actor network
             actor_loss = -tf.math.reduce_mean(critic_value)
 
+
+            # Smooth Regularization loop
             if self.lambda_s != None:
 
                 # delta = tf.Variable(tf.random.uniform((self.n_states, ), dtype=tf.float64), trainable=True)
@@ -225,11 +248,13 @@ class DDPG(keras.Model):
                     
                     self.actions_perturb = self.actions_perturb[i, :].assign(action_perturb[0])
 
+                #Adding the smooth penality loss
                 actor_loss = -tf.math.reduce_mean(critic_value) + tf.math.reduce_mean(self.lambda_s*tf.math.square(tf.norm(self.actions_perturb - actor_actions, axis=1)))
 
         actor_gradients_wrt_weights = tape.gradient(actor_loss, self.actor.trainable_variables)
         self.actor.optimizer.apply_gradients(zip(actor_gradients_wrt_weights, self.actor.trainable_variables))
         
+        # Update the target weights
         self.update_target()
         
         return

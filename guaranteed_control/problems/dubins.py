@@ -6,6 +6,7 @@ from guaranteed_control.ddpg.ddpg import train, DDPG, play
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
+# Implementing a general cost function in order to GridSearch the parameters
 def cost1(self, state_, action, a, b):
 
         vector_to_obj = self.obj - state_[:2]
